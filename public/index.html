@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Cadence event dashboard" />
+    <title>Cadence · Events</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=Crimson+Pro:wght@500;600;700&family=Material+Symbols+Outlined:FILL@0..1&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#home"><span class="icon brand-icon">event_note</span><span>Cadence</span></a>
+        <nav aria-label="Main navigation">
+          <a class="nav-link active" href="#home"><span class="icon">home</span>Home</a>
+          <a class="nav-link" href="#events"><span class="icon">calendar_month</span>Events <span id="event-count" class="count">0</span></a>
+        </nav>
+        <div class="profile"><div class="avatar">A</div><div><strong>Guest account</strong><small>Event attendee</small></div></div>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <label class="search"><span class="icon">search</span><input id="search" type="search" placeholder="Search events…" /></label>
+          <button id="api-settings" class="icon-button" aria-label="Configure API"><span class="icon">settings</span></button>
+        </header>
+
+        <section class="hero" id="home">
+          <div><p class="eyebrow">YOUR EVENT SPACE</p><h1>Find your next<br />great gathering.</h1><p class="hero-copy">Discover events from the community, save your place, and keep every plan in one calm workspace.</p></div>
+          <div class="hero-mark"><span class="icon">celebration</span></div>
+        </section>
+
+        <section id="events" class="events-section">
+          <div class="section-heading"><div><p class="eyebrow">EVENT DIRECTORY</p><h2>Upcoming events</h2></div><button id="refresh" class="text-button"><span class="icon">refresh</span>Refresh</button></div>
+          <div class="toolbar"><div id="filters" class="filters" role="group" aria-label="Filter events"><button class="filter active" data-status="">All</button><button class="filter" data-status="open">Open</button><button class="filter" data-status="active">Active</button></div><p id="connection-status" class="connection"><span></span>Connecting…</p></div>
+          <div id="events-grid" class="events-grid" aria-live="polite"></div>
+          <div id="empty-state" class="empty-state" hidden><span class="icon">event_busy</span><h3>No events found</h3><p>Try changing your filters, or check that the API URL is correct.</p></div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="register-dialog"><form id="register-form" method="dialog"><button class="close" value="cancel" aria-label="Close">×</button><p class="eyebrow">EVENT REGISTRATION</p><h2 id="dialog-title">Register</h2><p id="dialog-copy">Enter your account ID to reserve your place.</p><label>Your user ID<input id="user-id" required placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" pattern="[0-9a-fA-F-]{36}" /></label><p id="form-message" class="form-message" role="status"></p><div class="dialog-actions"><button value="cancel" class="secondary">Cancel</button><button id="submit-registration" value="default" class="primary">Register</button></div></form></dialog>
+    <dialog id="settings-dialog"><form id="settings-form" method="dialog"><button class="close" value="cancel" aria-label="Close">×</button><p class="eyebrow">CONNECTION</p><h2>API settings</h2><p>Enter the public URL of your deployed Events API. The local default is used when this is blank.</p><label>API base URL<input id="api-url" type="url" placeholder="https://your-api.onrender.com" /></label><div class="dialog-actions"><button value="cancel" class="secondary">Cancel</button><button value="default" class="primary">Save & reconnect</button></div></form></dialog>
+    <template id="event-card"><article class="event-card"><div class="card-top"><span class="status-badge"></span><span class="capacity"></span></div><h3></h3><p class="event-id"></p><div class="card-footer"><span class="icon">groups</span><span class="availability"></span><button class="register">Register <span class="icon">arrow_forward</span></button></div></article></template>
+    <script src="app.js"></script>
+  </body>
+</html>

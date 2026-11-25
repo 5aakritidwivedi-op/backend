@@ -1,16 +1,20 @@
 """Event browsing and registration API backed by Supabase."""
 
 import os
+from pathlib import Path
 from uuid import UUID
 
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
+from flask_cors import CORS
 from postgrest import APIError
 from supabase import Client, create_client
 
 load_dotenv()
 
+FRONTEND_DIR = Path(__file__).resolve().parent / "public"
 app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": os.getenv("CORS_ORIGINS", "*").split(",")}})
 
 supabase_url = os.getenv("SUPABASE_URL")
 supabase_key = os.getenv("SUPABASE_PUBLISHABLE_KEY") or os.getenv("SUPABASE_KEY")
@@ -38,7 +42,12 @@ def database_error(error):
 
 
 @app.get("/")
-def index():
+def frontend():
+    return send_from_directory(FRONTEND_DIR, "index.html")
+
+
+@app.get("/api")
+def api_index():
     return jsonify(message="Events API", endpoints=[
         "GET /api/events", "GET /api/events/<id>", "POST /api/registrations",
         "GET /api/me/registrations?user_id=<uuid>",
