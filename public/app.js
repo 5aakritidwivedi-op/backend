@@ -47,7 +47,7 @@ async function loadEvents() {
     renderEvents();
   } catch (error) {
     events = [];
-    setConnection("API unavailable", "error");
+    setConnection(error.message || "API unavailable", "error");
     renderEvents();
   }
 }
